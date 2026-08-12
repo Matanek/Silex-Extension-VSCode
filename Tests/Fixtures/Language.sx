@@ -1,0 +1,38 @@
+use STD.Text
+use GFX.Window as GameWindow
+
+protocol Described {
+    func description() str
+}
+
+public class Player:Described {
+    private let name:str
+    public var health:int = 100
+
+    public init(name:str) {
+        self.name = name
+    }
+
+    public func damage(amount:int = 1) {
+        self.health -= amount
+    }
+
+    public func description() str {
+        return "$(self.name): $(self.health)"
+    }
+}
+
+func main() {
+    // Build a small program that exercises the major grammar scopes.
+    var player = Player(name:"Ada")
+
+    for hit in 0...3 {
+        player.damage(hit)
+    }
+
+    if player.health > 0 {
+        print(player.description())
+    } else {
+        panic("player defeated")
+    }
+}

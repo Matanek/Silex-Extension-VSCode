@@ -1,0 +1,59 @@
+{
+  "name": "silex-language-support",
+  "displayName": "Silex Language Support",
+  "description": "Syntax highlighting and editor support for the Silex programming language.",
+  "version": "0.1.0",
+  "publisher": "Matanek",
+  "license": "Apache-2.0 WITH LLVM-exception",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Matanek/Silex-Extension-VSCode.git"
+  },
+  "homepage": "https://silex-lang.org",
+  "bugs": {
+    "url": "https://github.com/Matanek/Silex-Extension-VSCode/issues"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "silex",
+    "language",
+    "syntax",
+    "textmate"
+  ],
+  "scripts": {
+    "test": "node Tests/validate.mjs",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "3.9.2",
+    "vscode-oniguruma": "2.0.1",
+    "vscode-textmate": "9.3.2"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "silex",
+        "aliases": [
+          "Silex",
+          "silex"
+        ],
+        "extensions": [
+          ".sx"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "silex",
+        "scopeName": "source.silex",
+        "path": "./syntaxes/silex.tmLanguage.json"
+      }
+    ]
+  }
+}

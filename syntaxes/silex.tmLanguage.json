@@ -1,0 +1,260 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Silex",
+  "scopeName": "source.silex",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#declarations" },
+    { "include": "#imports" },
+    { "include": "#variables" },
+    { "include": "#builtins" },
+    { "include": "#keywords" },
+    { "include": "#constants" },
+    { "include": "#numbers" },
+    { "include": "#types" },
+    { "include": "#members" },
+    { "include": "#calls" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.silex" }
+          },
+          "end": "$",
+          "name": "comment.line.double-slash.silex"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.silex" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.silex" }
+          },
+          "name": "string.quoted.double.silex",
+          "patterns": [
+            {
+              "match": "\\\\(?:[\\\\\"nrt0]|u\\{[0-9A-Fa-f]+\\})",
+              "name": "constant.character.escape.silex"
+            },
+            {
+              "begin": "(\\$)(\\()",
+              "beginCaptures": {
+                "1": { "name": "punctuation.definition.template-expression.begin.silex" },
+                "2": { "name": "punctuation.section.group.begin.silex" }
+              },
+              "end": "(\\))",
+              "endCaptures": {
+                "1": { "name": "punctuation.section.group.end.silex" }
+              },
+              "contentName": "meta.embedded.expression.silex",
+              "patterns": [
+                { "include": "#builtins" },
+                { "include": "#keywords" },
+                { "include": "#constants" },
+                { "include": "#numbers" },
+                { "include": "#members" },
+                { "include": "#calls" },
+                { "include": "#operators" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "\\b(struct|class|protocol|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.silex" },
+            "2": { "name": "entity.name.type.silex" }
+          }
+        },
+        {
+          "match": "\\b(extend)\\s+([A-Za-z_][A-Za-z0-9_.]*)",
+          "captures": {
+            "1": { "name": "storage.type.extension.silex" },
+            "2": { "name": "entity.name.type.silex" }
+          }
+        },
+        {
+          "match": "\\b(func)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.function.silex" },
+            "2": { "name": "entity.name.function.silex" }
+          }
+        },
+        {
+          "match": "\\b(test)(?=\\s*(?:\"|\\{))",
+          "captures": {
+            "1": { "name": "storage.type.function.silex" }
+          }
+        },
+        {
+          "match": "\\b(init|drop)\\b",
+          "name": "entity.name.function.special.silex"
+        }
+      ]
+    },
+    "imports": {
+      "patterns": [
+        {
+          "match": "\\b(use)\\s+([A-Za-z_][A-Za-z0-9_.]*)(?:\\s+(as)\\s+([A-Za-z_][A-Za-z0-9_]*))?",
+          "captures": {
+            "1": { "name": "keyword.control.import.silex" },
+            "2": { "name": "entity.name.namespace.silex" },
+            "3": { "name": "keyword.control.import.silex" },
+            "4": { "name": "entity.name.type.silex" }
+          }
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "match": "\\b(let|var)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.variable.silex" },
+            "2": { "name": "variable.other.definition.silex" }
+          }
+        },
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=:)",
+          "captures": {
+            "1": { "name": "variable.parameter.silex" }
+          }
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "match": "\\b(void|int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|float|float32|float64|bool|str)\\b",
+          "name": "support.type.builtin.silex"
+        },
+        {
+          "match": "\\b(print|assert|panic|range)\\b(?=\\s*\\()",
+          "name": "support.function.builtin.silex"
+        },
+        {
+          "match": "\\b(C)(?=\\.function\\b)",
+          "name": "support.type.interop.silex"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(if|elif|else|while|for|in|break|continue|return|match|try|mutex)\\b",
+          "name": "keyword.control.silex"
+        },
+        {
+          "match": "\\b(public|private|protected|internal|local)\\b",
+          "name": "storage.modifier.access.silex"
+        },
+        {
+          "match": "\\b(static|intrinsic|override|deferred|isolated)\\b",
+          "name": "storage.modifier.silex"
+        },
+        {
+          "match": "\\b(copy|move|as)\\b",
+          "name": "keyword.operator.word.silex"
+        },
+        {
+          "match": "\\b(self|super)\\b",
+          "name": "variable.language.silex"
+        },
+        {
+          "match": "\\b(func|struct|class|protocol|extend|enum|let|var|use)\\b",
+          "name": "storage.type.silex"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.silex"
+        },
+        {
+          "match": "\\bnull\\b",
+          "name": "constant.language.null.silex"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "match": "(?x)\\b(?:0x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*|0b[01](?:_?[01])*|(?:[0-9](?:_?[0-9])*)?\\.[0-9](?:_?[0-9])*(?:[eE][+-]?[0-9](?:_?[0-9])*)?|[0-9](?:_?[0-9])*(?:[eE][+-]?[0-9](?:_?[0-9])*)?)\\b",
+          "name": "constant.numeric.silex"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b",
+          "name": "entity.name.type.silex"
+        }
+      ]
+    },
+    "members": {
+      "patterns": [
+        {
+          "match": "(?<=\\?\\.|\\.\\.|\\.)([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.member.silex" }
+          }
+        },
+        {
+          "match": "(?<=\\?\\.|\\.\\.|\\.)([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "variable.other.property.silex" }
+          }
+        }
+      ]
+    },
+    "calls": {
+      "patterns": [
+        {
+          "match": "\\b([a-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:<[^>\\n]+>)?\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.silex" }
+          }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "match": "\\.\\.\\.|\\.\\.|\\?\\.|=>|<<|>>|\\+\\+|--|==|!=|<=|>=|&&|\\|\\||\\+=|-=|\\*=|/=|%=|[+\\-*/%^&=<>!@?]",
+          "name": "keyword.operator.silex"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": "[{}()\\[\\]]",
+          "name": "punctuation.section.silex"
+        },
+        {
+          "match": "[,;:]",
+          "name": "punctuation.separator.silex"
+        }
+      ]
+    }
+  }
+}
