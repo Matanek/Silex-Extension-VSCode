@@ -2,7 +2,7 @@
   "name": "silex-language-support",
   "displayName": "Silex Language Support",
   "description": "Syntax highlighting and editor support for the Silex programming language.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "Matanek",
   "license": "Apache-2.0 WITH LLVM-exception",
   "repository": {
