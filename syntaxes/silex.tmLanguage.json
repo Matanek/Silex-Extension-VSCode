@@ -168,7 +168,7 @@
           "name": "keyword.control.silex"
         },
         {
-          "match": "\\b(public|private|protected|internal|package|module|local)\\b",
+          "match": "\\b(public|private|protected|package|module|local)\\b",
           "name": "storage.modifier.access.silex"
         },
         {

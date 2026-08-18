@@ -56,6 +56,28 @@ assert.ok(
   "module visibility must use the access-modifier scope",
 );
 
+const removedVisibilityLine = "    internal func legacy() {}";
+const removedVisibilityTokens = grammar.tokenizeLine(
+  removedVisibilityLine,
+  textmate.INITIAL,
+).tokens;
+const internalStart = removedVisibilityLine.indexOf("internal");
+const internalToken = removedVisibilityTokens.find(
+  (token) => token.startIndex <= internalStart && token.endIndex >= internalStart + "internal".length,
+);
+assert.ok(internalToken, "the removed spelling must remain ordinary tokenizable text");
+assert.ok(
+  !internalToken.scopes.includes("storage.modifier.access.silex"),
+  "internal must not be highlighted as Silex visibility",
+);
+
+const staticStructLine = "public static struct Constants {";
+const staticStructTokens = grammar.tokenizeLine(staticStructLine, textmate.INITIAL).tokens;
+const constantsToken = staticStructTokens.find(
+  (token) => staticStructLine.slice(token.startIndex, token.endIndex) === "Constants",
+);
+assert.ok(constantsToken?.scopes.includes("entity.name.type.silex"));
+
 let tryAlternativeStack = textmate.INITIAL;
 const tryLine = "    var value = try read(path)";
 tryAlternativeStack = grammar.tokenizeLine(tryLine, tryAlternativeStack).ruleStack;
