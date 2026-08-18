@@ -157,11 +157,18 @@
     "keywords": {
       "patterns": [
         {
+          "match": "\\b(else)(\\s+)(error)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.silex" },
+            "3": { "name": "variable.other.silex" }
+          }
+        },
+        {
           "match": "\\b(if|elif|else|while|for|in|break|continue|return|match|try|mutex)\\b",
           "name": "keyword.control.silex"
         },
         {
-          "match": "\\b(public|private|protected|internal|local)\\b",
+          "match": "\\b(public|private|protected|internal|package|module|local)\\b",
           "name": "storage.modifier.access.silex"
         },
         {

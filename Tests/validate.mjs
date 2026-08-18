@@ -45,6 +45,42 @@ const registry = new textmate.Registry({
 const grammar = await registry.loadGrammar("source.silex");
 assert.ok(grammar, "the Silex grammar must load");
 
+const visibilityLine = "    module init(descriptor:int) {}";
+const visibilityTokens = grammar.tokenizeLine(visibilityLine, textmate.INITIAL).tokens;
+const moduleToken = visibilityTokens.find(
+  (token) => visibilityLine.slice(token.startIndex, token.endIndex) === "module",
+);
+assert.ok(moduleToken, "module visibility must be tokenized");
+assert.ok(
+  moduleToken.scopes.includes("storage.modifier.access.silex"),
+  "module visibility must use the access-modifier scope",
+);
+
+let tryAlternativeStack = textmate.INITIAL;
+const tryLine = "    var value = try read(path)";
+tryAlternativeStack = grammar.tokenizeLine(tryLine, tryAlternativeStack).ruleStack;
+const tryAlternativeLine = '        else error "cannot read"';
+const tryAlternativeTokens = grammar.tokenizeLine(
+  tryAlternativeLine,
+  tryAlternativeStack,
+).tokens;
+const elseToken = tryAlternativeTokens.find(
+  (token) => tryAlternativeLine.slice(token.startIndex, token.endIndex) === "else",
+);
+const errorToken = tryAlternativeTokens.find(
+  (token) => tryAlternativeLine.slice(token.startIndex, token.endIndex) === "error",
+);
+assert.ok(elseToken, "multiline try alternative must tokenize else");
+assert.ok(
+  elseToken.scopes.includes("keyword.control.silex"),
+  "multiline try alternative must highlight else as a keyword",
+);
+assert.ok(errorToken, "multiline try alternative must tokenize the error binding");
+assert.ok(
+  errorToken.scopes.includes("variable.other.silex"),
+  "multiline try alternative must highlight error as a variable",
+);
+
 const fixture = await fs.readFile(path.join(root, "Tests", "Fixtures", "Language.sx"), "utf8");
 const seenScopes = new Set();
 let ruleStack = textmate.INITIAL;
