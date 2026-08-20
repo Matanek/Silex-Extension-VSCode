@@ -1,6 +1,10 @@
 use STD.Text
 use GFX.Window as GameWindow
 
+contribute GFX.Plugins {
+    public use GFX.Physics.Plugin as Physics
+}
+
 protocol Described {
     func description() str
 }

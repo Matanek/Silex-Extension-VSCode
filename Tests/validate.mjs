@@ -78,6 +78,17 @@ const constantsToken = staticStructTokens.find(
 );
 assert.ok(constantsToken?.scopes.includes("entity.name.type.silex"));
 
+const contributionLine = "contribute GFX.Plugins {";
+const contributionTokens = grammar.tokenizeLine(contributionLine, textmate.INITIAL).tokens;
+const contributeToken = contributionTokens.find(
+  (token) => contributionLine.slice(token.startIndex, token.endIndex) === "contribute",
+);
+const catalogToken = contributionTokens.find(
+  (token) => contributionLine.slice(token.startIndex, token.endIndex) === "GFX.Plugins",
+);
+assert.ok(contributeToken?.scopes.includes("keyword.control.import.silex"));
+assert.ok(catalogToken?.scopes.includes("entity.name.namespace.silex"));
+
 let tryAlternativeStack = textmate.INITIAL;
 const tryLine = "    var value = try read(path)";
 tryAlternativeStack = grammar.tokenizeLine(tryLine, tryAlternativeStack).ruleStack;

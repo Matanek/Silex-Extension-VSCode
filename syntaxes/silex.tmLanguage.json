@@ -90,6 +90,13 @@
           }
         },
         {
+          "match": "\\b(contribute)\\s+([A-Za-z_][A-Za-z0-9_.]*)",
+          "captures": {
+            "1": { "name": "keyword.control.import.silex" },
+            "2": { "name": "entity.name.namespace.silex" }
+          }
+        },
+        {
           "match": "\\b(func)\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "captures": {
             "1": { "name": "storage.type.function.silex" },
@@ -184,7 +191,7 @@
           "name": "variable.language.silex"
         },
         {
-          "match": "\\b(func|struct|class|protocol|extend|enum|let|var|use)\\b",
+          "match": "\\b(func|struct|class|protocol|extend|contribute|enum|let|var|use)\\b",
           "name": "storage.type.silex"
         }
       ]
