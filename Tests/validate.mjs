@@ -114,6 +114,28 @@ assert.ok(
   "multiline try alternative must highlight error as a variable",
 );
 
+let blockStringStack = textmate.INITIAL;
+for (const line of ['    let message = "', "    First line", "    Second line"]) {
+  const result = grammar.tokenizeLine(line, blockStringStack);
+  blockStringStack = result.ruleStack;
+  assert.ok(
+    result.tokens.some((token) => token.scopes.includes("string.quoted.double.silex")),
+    "every block string line must retain the string scope",
+  );
+}
+const blockStringEnd = grammar.tokenizeLine('    "', blockStringStack);
+blockStringStack = blockStringEnd.ruleStack;
+assert.ok(
+  blockStringEnd.tokens.some((token) => token.scopes.includes("string.quoted.double.silex")),
+  "the block string closing line must retain the string scope",
+);
+const afterBlockLine = "    print(message)";
+const afterBlockTokens = grammar.tokenizeLine(afterBlockLine, blockStringStack).tokens;
+const printToken = afterBlockTokens.find(
+  (token) => afterBlockLine.slice(token.startIndex, token.endIndex) === "print",
+);
+assert.ok(printToken?.scopes.includes("support.function.builtin.silex"));
+
 const fixture = await fs.readFile(path.join(root, "Tests", "Fixtures", "Language.sx"), "utf8");
 const seenScopes = new Set();
 let ruleStack = textmate.INITIAL;

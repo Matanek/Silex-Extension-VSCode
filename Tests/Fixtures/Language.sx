@@ -29,6 +29,11 @@ public class Player:Described {
 func main() {
     // Build a small program that exercises the major grammar scopes.
     var player = Player(name:"Ada")
+    let introduction = "
+    Player: $(player.description())
+    Ready for battle.
+    "
+    print(introduction)
 
     for hit in 0...3 {
         player.damage(hit)
