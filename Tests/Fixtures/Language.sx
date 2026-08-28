@@ -45,3 +45,8 @@ func main() {
         panic("player defeated")
     }
 }
+// Canonical line comment
+# Alternate line comment
+/* Outer block comment
+   /* Nested block comment */
+*/

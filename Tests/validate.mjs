@@ -20,6 +20,7 @@ assert.deepEqual(manifest.contributes.languages[0].extensions, [".sx"]);
 assert.equal(manifest.contributes.grammars[0].scopeName, "source.silex");
 assert.equal(grammarDefinition.scopeName, "source.silex");
 assert.equal(configuration.comments.lineComment, "//");
+assert.deepEqual(configuration.comments.blockComment, ["/*", "*/"]);
 
 const wasmPath = path.join(
   root,
@@ -44,6 +45,41 @@ const registry = new textmate.Registry({
 
 const grammar = await registry.loadGrammar("source.silex");
 assert.ok(grammar, "the Silex grammar must load");
+
+const canonicalCommentTokens = grammar.tokenizeLine("// canonical", textmate.INITIAL).tokens;
+assert.ok(
+  canonicalCommentTokens.some((token) =>
+    token.scopes.includes("comment.line.double-slash.silex")
+  ),
+  "the canonical // form must be highlighted as a line comment",
+);
+
+const hashCommentTokens = grammar.tokenizeLine("# alternate", textmate.INITIAL).tokens;
+assert.ok(
+  hashCommentTokens.some((token) =>
+    token.scopes.includes("comment.line.number-sign.silex")
+  ),
+  "the alternate # form must be highlighted as a line comment",
+);
+
+let nestedCommentStack = textmate.INITIAL;
+for (const line of ["/* outer", "   /* nested */", "   outer", "*/"]) {
+  const result = grammar.tokenizeLine(line, nestedCommentStack);
+  nestedCommentStack = result.ruleStack;
+  assert.ok(
+    result.tokens.some((token) => token.scopes.includes("comment.block.silex")),
+    "every nested block-comment line must retain the block-comment scope",
+  );
+}
+const afterCommentLine = "func active() {}";
+const afterCommentTokens = grammar.tokenizeLine(afterCommentLine, nestedCommentStack).tokens;
+const activeToken = afterCommentTokens.find(
+  (token) => afterCommentLine.slice(token.startIndex, token.endIndex) === "active",
+);
+assert.ok(
+  activeToken?.scopes.includes("entity.name.function.silex"),
+  "highlighting must resume after the outer block comment closes",
+);
 
 const visibilityLine = "    module init(descriptor:int) {}";
 const visibilityTokens = grammar.tokenizeLine(visibilityLine, textmate.INITIAL).tokens;
@@ -149,7 +185,9 @@ for (const line of fixture.split("\n")) {
 }
 
 for (const expected of [
+  "comment.block.silex",
   "comment.line.double-slash.silex",
+  "comment.line.number-sign.silex",
   "entity.name.function.silex",
   "entity.name.type.silex",
   "keyword.control.silex",

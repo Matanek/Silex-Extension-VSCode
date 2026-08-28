@@ -22,12 +22,34 @@
     "comments": {
       "patterns": [
         {
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.begin.silex" }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.comment.end.silex" }
+          },
+          "name": "comment.block.silex",
+          "patterns": [
+            { "include": "#comments" }
+          ]
+        },
+        {
           "begin": "//",
           "beginCaptures": {
             "0": { "name": "punctuation.definition.comment.silex" }
           },
           "end": "$",
           "name": "comment.line.double-slash.silex"
+        },
+        {
+          "begin": "#",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.silex" }
+          },
+          "end": "$",
+          "name": "comment.line.number-sign.silex"
         }
       ]
     },
