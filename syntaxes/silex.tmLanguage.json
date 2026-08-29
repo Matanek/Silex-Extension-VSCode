@@ -126,6 +126,32 @@
           }
         },
         {
+          "match": "\\b(let|var)\\s+([A-Za-z_][A-Za-z0-9_]*)(?=\\s*:[^{}\\n]+\\{)",
+          "captures": {
+            "1": { "name": "storage.type.variable.silex" },
+            "2": { "name": "variable.other.property.definition.silex" }
+          }
+        },
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)(?=\\s*:[^{}\\n]+\\{\\s*get\\b)",
+          "captures": {
+            "1": { "name": "variable.other.property.definition.silex" }
+          }
+        },
+        {
+          "match": "\\b(get)\\b(?=\\s*\\{)|\\b(set)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "keyword.other.accessor.silex" },
+            "2": { "name": "keyword.other.accessor.silex" }
+          }
+        },
+        {
+          "match": "\\bset\\s*\\(\\s*([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "variable.parameter.silex" }
+          }
+        },
+        {
           "match": "\\b(test)(?=\\s*(?:\"|\\{))",
           "captures": {
             "1": { "name": "storage.type.function.silex" }

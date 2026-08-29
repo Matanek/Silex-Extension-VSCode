@@ -191,10 +191,12 @@ for (const expected of [
   "entity.name.function.silex",
   "entity.name.type.silex",
   "keyword.control.silex",
+  "keyword.other.accessor.silex",
   "storage.modifier.access.silex",
   "string.quoted.double.silex",
   "support.type.builtin.silex",
   "variable.other.property.silex",
+  "variable.other.property.definition.silex",
 ]) {
   assert.ok(seenScopes.has(expected), `missing expected scope: ${expected}`);
 }

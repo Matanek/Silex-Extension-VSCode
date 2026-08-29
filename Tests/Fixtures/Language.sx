@@ -7,11 +7,16 @@ contribute GFX.Plugins {
 
 protocol Described {
     func description() str
+    display_name:str { get }
 }
 
 public class Player:Described {
-    private let name:str
+    private var name:str
     public var health:int = 100
+    public var display_name:str {
+        get { return self.name }
+        set(value) { self.name = value }
+    }
 
     public init(name:str) {
         self.name = name
