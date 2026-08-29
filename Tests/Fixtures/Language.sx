@@ -17,6 +17,9 @@ public class Player:Described {
         get { return self.name }
         set(value) { self.name = value }
     }
+    public var title:str = "Player" {
+        get { return self.title }
+    }
 
     public init(name:str) {
         self.name = name
