@@ -8,12 +8,12 @@
     { "include": "#declarations" },
     { "include": "#imports" },
     { "include": "#variables" },
+    { "include": "#members" },
     { "include": "#builtins" },
     { "include": "#keywords" },
     { "include": "#constants" },
     { "include": "#numbers" },
     { "include": "#types" },
-    { "include": "#members" },
     { "include": "#calls" },
     { "include": "#operators" },
     { "include": "#punctuation" }
@@ -227,7 +227,7 @@
           "name": "storage.modifier.access.silex"
         },
         {
-          "match": "\\b(static|intrinsic|override|deferred|isolated)\\b",
+          "match": "\\b(static|intrinsic|noncopyable|override|deferred|isolated)\\b",
           "name": "storage.modifier.silex"
         },
         {

@@ -114,6 +114,27 @@ const constantsToken = staticStructTokens.find(
 );
 assert.ok(constantsToken?.scopes.includes("entity.name.type.silex"));
 
+const noncopyableClassLine = "public noncopyable class Handle {";
+const noncopyableClassTokens = grammar.tokenizeLine(
+  noncopyableClassLine,
+  textmate.INITIAL,
+).tokens;
+const noncopyableToken = noncopyableClassTokens.find(
+  (token) => noncopyableClassLine.slice(token.startIndex, token.endIndex) === "noncopyable",
+);
+const handleToken = noncopyableClassTokens.find(
+  (token) => noncopyableClassLine.slice(token.startIndex, token.endIndex) === "Handle",
+);
+assert.ok(noncopyableToken?.scopes.includes("storage.modifier.silex"));
+assert.ok(handleToken?.scopes.includes("entity.name.type.silex"));
+
+const dtypeCallLine = "let dtype = DType.float32()";
+const dtypeCallTokens = grammar.tokenizeLine(dtypeCallLine, textmate.INITIAL).tokens;
+const float32MethodToken = dtypeCallTokens.find(
+  (token) => dtypeCallLine.slice(token.startIndex, token.endIndex) === "float32",
+);
+assert.ok(float32MethodToken?.scopes.includes("entity.name.function.member.silex"));
+
 const contributionLine = "contribute GFX.Plugins {";
 const contributionTokens = grammar.tokenizeLine(contributionLine, textmate.INITIAL).tokens;
 const contributeToken = contributionTokens.find(
