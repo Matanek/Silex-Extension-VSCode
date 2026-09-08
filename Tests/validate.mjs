@@ -114,18 +114,18 @@ const constantsToken = staticStructTokens.find(
 );
 assert.ok(constantsToken?.scopes.includes("entity.name.type.silex"));
 
-const noncopyableClassLine = "public noncopyable class Handle {";
-const noncopyableClassTokens = grammar.tokenizeLine(
-  noncopyableClassLine,
+const nocopyClassLine = "public nocopy class Handle {";
+const nocopyClassTokens = grammar.tokenizeLine(
+  nocopyClassLine,
   textmate.INITIAL,
 ).tokens;
-const noncopyableToken = noncopyableClassTokens.find(
-  (token) => noncopyableClassLine.slice(token.startIndex, token.endIndex) === "noncopyable",
+const nocopyToken = nocopyClassTokens.find(
+  (token) => nocopyClassLine.slice(token.startIndex, token.endIndex) === "nocopy",
 );
-const handleToken = noncopyableClassTokens.find(
-  (token) => noncopyableClassLine.slice(token.startIndex, token.endIndex) === "Handle",
+const handleToken = nocopyClassTokens.find(
+  (token) => nocopyClassLine.slice(token.startIndex, token.endIndex) === "Handle",
 );
-assert.ok(noncopyableToken?.scopes.includes("storage.modifier.silex"));
+assert.ok(nocopyToken?.scopes.includes("storage.modifier.silex"));
 assert.ok(handleToken?.scopes.includes("entity.name.type.silex"));
 
 const dtypeCallLine = "let dtype = DType.float32()";

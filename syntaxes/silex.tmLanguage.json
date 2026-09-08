@@ -227,7 +227,7 @@
           "name": "storage.modifier.access.silex"
         },
         {
-          "match": "\\b(static|intrinsic|noncopyable|override|deferred|isolated)\\b",
+          "match": "\\b(static|intrinsic|nocopy|override|deferred|isolated)\\b",
           "name": "storage.modifier.silex"
         },
         {
