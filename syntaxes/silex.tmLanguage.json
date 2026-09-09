@@ -98,6 +98,14 @@
     "declarations": {
       "patterns": [
         {
+          "match": "\\b(func)\\s+(operator)\\s*([+\\-*/])",
+          "captures": {
+            "1": { "name": "storage.type.function.silex" },
+            "2": { "name": "keyword.declaration.operator.silex" },
+            "3": { "name": "keyword.operator.silex" }
+          }
+        },
+        {
           "match": "\\b(struct|class|protocol|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "captures": {
             "1": { "name": "storage.type.silex" },

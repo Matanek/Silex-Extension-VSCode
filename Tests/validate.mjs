@@ -81,6 +81,17 @@ assert.ok(
   "highlighting must resume after the outer block comment closes",
 );
 
+const operatorLine = "public func operator +(left:Vec2, right:Vec2) Vec2 {}";
+const operatorTokens = grammar.tokenizeLine(operatorLine, textmate.INITIAL).tokens;
+const operatorKeywordToken = operatorTokens.find(
+  (token) => operatorLine.slice(token.startIndex, token.endIndex) === "operator",
+);
+const operatorSymbolToken = operatorTokens.find(
+  (token) => operatorLine.slice(token.startIndex, token.endIndex) === "+",
+);
+assert.ok(operatorKeywordToken?.scopes.includes("keyword.declaration.operator.silex"));
+assert.ok(operatorSymbolToken?.scopes.includes("keyword.operator.silex"));
+
 const visibilityLine = "    module init(descriptor:int) {}";
 const visibilityTokens = grammar.tokenizeLine(visibilityLine, textmate.INITIAL).tokens;
 const moduleToken = visibilityTokens.find(
