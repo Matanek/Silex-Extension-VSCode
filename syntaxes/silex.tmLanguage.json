@@ -227,7 +227,7 @@
           }
         },
         {
-          "match": "\\b(if|elif|else|while|for|in|break|continue|return|match|try|mutex)\\b",
+          "match": "\\b(if|elif|else|while|for|in|break|continue|return|yield|match|try|mutex)\\b",
           "name": "keyword.control.silex"
         },
         {

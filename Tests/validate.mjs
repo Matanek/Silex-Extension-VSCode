@@ -204,6 +204,15 @@ const printToken = afterBlockTokens.find(
 );
 assert.ok(printToken?.scopes.includes("support.function.builtin.silex"));
 
+const yieldLine = "            yield result";
+const yieldToken = grammar.tokenizeLine(yieldLine, textmate.INITIAL).tokens.find(
+  (token) => yieldLine.slice(token.startIndex, token.endIndex) === "yield",
+);
+assert.ok(
+  yieldToken?.scopes.includes("keyword.control.silex"),
+  "yield must highlight as a control keyword",
+);
+
 const fixture = await fs.readFile(path.join(root, "Tests", "Fixtures", "Language.sx"), "utf8");
 const seenScopes = new Set();
 let ruleStack = textmate.INITIAL;

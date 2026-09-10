@@ -52,6 +52,15 @@ func main() {
     } else {
         panic("player defeated")
     }
+
+    let category = match {
+        player.health >= 90 => {
+            let label = "ready"
+            yield label
+        }
+        else => "recovering"
+    }
+    print(category)
 }
 // Canonical line comment
 # Alternate line comment
