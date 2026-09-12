@@ -146,6 +146,13 @@ const float32MethodToken = dtypeCallTokens.find(
 );
 assert.ok(float32MethodToken?.scopes.includes("entity.name.function.member.silex"));
 
+for (const line of ["actor.move(1)", "actor?.move(1)", "actor..move(1)"]) {
+  const token = grammar.tokenizeLine(line, textmate.INITIAL).tokens.find(
+    (token) => line.slice(token.startIndex, token.endIndex) === "move",
+  );
+  assert.ok(token?.scopes.includes("entity.name.function.member.silex"), line);
+}
+
 const contributionLine = "contribute GFX.Plugins {";
 const contributionTokens = grammar.tokenizeLine(contributionLine, textmate.INITIAL).tokens;
 const contributeToken = contributionTokens.find(
